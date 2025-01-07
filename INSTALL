@@ -12,7 +12,7 @@ Installation Instructions for Package rBLAST
     Linux/Unix
     ----------
     Precombiled software package are already available for many Linux
-    distributions. The package is typically called ⁠ncbi-blast+. For example
+    distributions. The package is typically called ncbi-blast+. For example
     on Debian/Ubuntu, the package can be installed using the APT
     package manager:
     apt-get install ncbi-blast+

@@ -273,7 +273,7 @@ predict.BLAST <-
             infile,
             "-out",
             outfile,
-            '-outfmt "10',
+            '-outfmt "10 delim=@ ',
             ### 10 is CSV
             custom_format,
             '"',
@@ -313,25 +313,23 @@ predict.BLAST <-
         }
 
         ## read and parse BLAST output
+        hits <- length(readLines(outfile))
         if (verbose) {
-            cat(" * reading results from ", outfile, "\n")
+            cat(" * reading results from", outfile, "\n")
+            cat(" * number of lines in results file:", hits, "\n")
         }
 
-        if (is(
-            try(
-                cl_tab <-
-                    read.table(outfile,
-                        sep = ",",
-                        quote = "",
-                        col.names = c_names
-                    ),
-                silent = FALSE
-            ),
-            "try-error"
-        )) {
-            warning("BLAST did not return any matches!")
-            cl_tab <- data.frame(matrix(ncol = length(c_names), nrow = 0))
+        if (length(readLines(outfile)) == 0L) {
+            return(data.frame(matrix(ncol = length(c_names), nrow = 0)))
         }
+
+        cl_tab <-
+            read.table(outfile,
+                       sep = "@",
+                       quote = "",
+                       col.names = c_names
+            )
+
 
         if (verbose) {
             cat(" * found", nrow(cl_tab), "matches.\n")
